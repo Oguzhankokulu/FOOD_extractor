@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Package OCR Scanner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍎 Food Package OCR Scanner</h1>
+            <p>Extract ingredients and nutritional information from food package images</p>
+        </header>
+
+        <main>
+            <!-- Photo Tips Section -->
+            <section class="tips-section">
+                <button id="toggleTipsBtn" class="btn btn-small btn-secondary">📸 Show Photo Tips</button>
+                <div id="photoTips" class="photo-tips" style="display: none;">
+                    <h3>📸 Tips for Best Results:</h3>
+                    <div class="tips-grid">
+                        <div class="tip-item">
+                            <span class="tip-icon">💡</span>
+                            <strong>Good Lighting</strong>
+                            <p>Use even, diffused light. Avoid direct flash or harsh shadows.</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">📏</span>
+                            <strong>Flatten Package</strong>
+                            <p>Tape package to wall or lay flat on table to reduce curves.</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">📐</span>
+                            <strong>Perpendicular Angle</strong>
+                            <p>Hold camera parallel to text, not at an angle.</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">✨</span>
+                            <strong>Avoid Glare</strong>
+                            <p>For shiny packages, angle slightly (15-30°) away from light.</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">🔍</span>
+                            <strong>Get Close</strong>
+                            <p>Fill the frame with text. Tap to focus on the text area.</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">🎯</span>
+                            <strong>Stay Steady</strong>
+                            <p>Use a surface or timer to avoid motion blur.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-options">
+                    <div class="option-card">
+                        <h3>📷 Take Photo</h3>
+                        <button id="cameraBtn" class="btn btn-primary">Open Camera</button>
+                    </div>
+                    <div class="option-card">
+                        <h3>📁 Upload Image</h3>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <button id="uploadBtn" class="btn btn-primary">Choose File</button>
+                    </div>
+                </div>
+
+                <!-- Camera Preview (hidden by default) -->
+                <div id="cameraSection" class="camera-section" style="display: none;">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="camera-controls">
+                        <button id="captureBtn" class="btn btn-success">📸 Capture</button>
+                        <button id="closeCameraBtn" class="btn btn-secondary">❌ Close Camera</button>
+                    </div>
+                </div>
+
+                <!-- Image Preview -->
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <h3>Selected Image:</h3>
+                    <img id="previewImg" alt="Preview">
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <button id="processBtn" class="btn btn-success">Process Image</button>
+                </div>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing image... Please wait</p>
+            </div>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>📊 Extracted Information</h2>
+                
+                <!-- Calories -->
+                <div class="result-card">
+                    <h3>🔥 Calories</h3>
+                    <div id="caloriesResult" class="result-content">
+                        <p class="no-data">No data</p>
+                    </div>
+                </div>
+
+                <!-- Serving Size -->
+                <div class="result-card">
+                    <h3>🥄 Serving Size</h3>
+                    <div id="servingSizeResult" class="result-content">
+                        <p class="no-data">No data</p>
+                    </div>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="result-card">
+                    <h3>🧪 Ingredients</h3>
+                    <div id="ingredientsResult" class="result-content">
+                        <p class="no-data">No data</p>
+                    </div>
+                </div>
+
+                <!-- Nutrition Facts -->
+                <div class="result-card">
+                    <h3>📈 Nutrition Facts</h3>
+                    <div id="nutritionResult" class="result-content">
+                        <p class="no-data">No data</p>
+                    </div>
+                </div>
+
+                <!-- Allergens -->
+                <div class="result-card">
+                    <h3>⚠️ Allergens</h3>
+                    <div id="allergensResult" class="result-content">
+                        <p class="no-data">No data</p>
+                    </div>
+                </div>
+
+                <!-- Raw JSON -->
+                <div class="result-card">
+                    <h3>🔍 Raw JSON Data</h3>
+                    <button id="toggleJsonBtn" class="btn btn-small">Show JSON</button>
+                    <pre id="jsonResult" class="json-result" style="display: none;"></pre>
+                </div>
+
+                <button id="resetBtn" class="btn btn-secondary">🔄 Scan Another Image</button>
+            </section>
+
+            <!-- Error Section -->
+            <div id="errorSection" class="error-section" style="display: none;">
+                <h3>❌ Error</h3>
+                <p id="errorMessage"></p>
+                <button id="errorResetBtn" class="btn btn-secondary">Try Again</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by FastAPI, OpenCV, and Tesseract OCR</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
